@@ -21,3 +21,19 @@ tengo github copilot como extension, tengo suscripcion de universidad
 RECORDAR:
 cd..  salir de carpeta actual
 @ referencia a carpeta src
+
+-----------GITHUB-------------------
+1-git init
+2-git add .
+3-git commit -m "install react and tailwindcss"
+4- Create repository on github
+
+5-
+…or push an existing repository from the command line
+git remote add origin https://github.com/WILLIAMS-PROGRAMMER/mern-blog.git
+git branch -M main
+git push -u origin main
+
+INSTALAR npm install react-router-dom   ///para el manejo de as rutas de la aplicacion
+
+ctr + spacebar para autoimportar 

@@ -46,3 +46,9 @@ https://www.flowbite-react.com/docs/components/rating
 npm i flowbite-react
 
 npm i react-icons
+
+----------BACKEND-----------
+npm init -y
+npm i express
+node api/index.js
+npm install nodemon  //para que este atento a los cambios que yo haga

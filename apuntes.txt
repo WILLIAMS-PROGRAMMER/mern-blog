@@ -54,3 +54,6 @@ node api/index.js
 npm install nodemon  //para que este atento a los cambios que yo haga
  npm i mongoose
  npm i dotenv
+
+//estamos utilizando insomnia para testing
+ npm i bcryptjs //para hashear password

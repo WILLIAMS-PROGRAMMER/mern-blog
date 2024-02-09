@@ -37,3 +37,12 @@ git push -u origin main
 INSTALAR npm install react-router-dom   ///para el manejo de as rutas de la aplicacion
 
 ctr + spacebar para autoimportar 
+
+ir a source control para actualizar el repositorio github  ,opcion source control(barra lateral izquierda)
+al hacer esto estamos agregando commits al proyecto
+
+//UI diseños cheveres
+https://www.flowbite-react.com/docs/components/rating
+npm i flowbite-react
+
+npm i react-icons

@@ -52,3 +52,5 @@ npm init -y
 npm i express
 node api/index.js
 npm install nodemon  //para que este atento a los cambios que yo haga
+ npm i mongoose
+ npm i dotenv

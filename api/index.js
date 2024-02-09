@@ -24,3 +24,13 @@ app.listen(3000, () => {    // Start server
 // this is for testing purposes
 app.use('/api/user', userRoutes);   // Use user routes
 app.use('/api/auth', authRoutes);   // Use auth routes
+
+app.use((err, req, res, next) => {  // Error handling middleware
+    const statusCode = err.statusCode || 500; // If there is a status code in the error, use it, otherwise use 500
+    const message = err.message || 'Internal server error'; // Get the error message
+    res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message
+    }); // Send the error message
+}); 

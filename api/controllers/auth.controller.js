@@ -14,6 +14,8 @@ export const signup = async (req, res, next) => {  //req: request, res: response
 
     const newUser = new User({username, email, password:hashedPassword}); // Create a new user
 
+    //mognodb will automatically create a collection called users and store the data
+    //mongodb will verffy duplicate email and username
     try {
         await newUser.save(); // Save the new user
         res.json({message: "User created successfully!"});

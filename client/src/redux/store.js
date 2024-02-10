@@ -14,13 +14,14 @@ const persistConfig = {
   version: 1,
 }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer); // this is the root reducer that we will use in the store
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ // this is for removing the serializable check warning
     serializableCheck: false,
   }),
 });
 
+//this is the persistor that we will use to persist the store, in the main.jsx we will use it to wrap the provider
 export const persistor = persistStore(store);

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'; //react-redux is for make the connection between the store and the component
 import { signInStart, SignInSuccess, SignInFailure } from '../redux/user/userSlice';
+import OAuth from '../components/OAuth';
 
 export default function SignIn() {
 
@@ -38,7 +39,7 @@ export default function SignIn() {
         body: JSON.stringify(formData) // Convert the object to a JSON string
       });
 
-      const data = await res.json();
+      const data = await res.json(); // this is the response from the server
       if(data.success === false) {
         //setErrorMessage(data.message);
         dispatch(SignInFailure(data.message));
@@ -92,6 +93,7 @@ export default function SignIn() {
                     ) : 'Sign In'
                   }
               </Button>
+              <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Dont have an account?</span>

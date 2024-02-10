@@ -31,7 +31,7 @@ export default function SignIn() {
       // setErrorMessage(null); // Reset the error message because we are trying to submit the form again
       dispatch(signInStart()); 
 
-      const res = await fetch('/api/auth/signin', {
+      const res = await fetch('/api/auth/signin', { //fecth is a promise based function to make http requests
         method: 'POST', // POST because we are sending data to the server
         headers: {
           'Content-Type': 'application/json'

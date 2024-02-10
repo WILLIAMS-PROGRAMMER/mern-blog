@@ -5,7 +5,7 @@ import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken'; // jwt is a standard for access tokens, which is a JSON object that contains information about the user and the token itself
 
 export const signup = async (req, res, next) => {  //req: request, res: response
-    const {username, email, password} = req.body;
+    const {username, email, password} = req.body; // req.body is the data that is sent to the server from the client
 
     if(!username || !email || !password || username === '' || email === '' || password === ''){ // Check if all fields are filled
        next(errorHandler(400, "All fields are required!") ); // Pass the error to the error handling middleware (in api/index.js)
@@ -58,13 +58,14 @@ export const signin = async (req, res, next) => {  //req: request, res: response
 };
 
 export const google = async (req, res, next) => { //next for error handling
-    const {name, email, googlePhotoURL} = req.body;
-
+    const {name, email, googlePhotoURL} = req.body; //req.body is the data that is sent to the server from the client
+    
     if(!name || !email || name === '' || email === ''){ // Check if all fields are filled
        next(errorHandler(400, "All fields are required!") ); // Pass the error to the error handling middleware (in api/index.js)
     }
 
     try {
+        console.log();
         // el usuario ya existe
         const validUser = await User.findOne({email}); // Find the user by email
         if(validUser){

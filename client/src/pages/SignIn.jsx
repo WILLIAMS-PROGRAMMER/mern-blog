@@ -1,13 +1,17 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'; //react-redux is for make the connection between the store and the component
+import { signInStart, SignInSuccess, SignInFailure } from '../redux/user/userSlice';
 
 export default function SignIn() {
 
   // State
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  const { error:errorMessage, loading } = useSelector((state) => state.user); // this is the user slice of the store
+  const dispatch = useDispatch(); // this is the hook that we use to dispatch actions to the store
   // Hooks for navigation (to redirect the user to another page)
   const navigate = useNavigate();
 
@@ -18,11 +22,14 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submit ,so the page won't refresh
     if( !formData.email || !formData.password) {
-      return setErrorMessage('Please fill in all fields');
+      //return setErrorMessage('Please fill in all fields');
+      return dispatch(SignInFailure('Please fill in all fields'));
     }
     try {
-      setLoading(true); // here we are starting the loading state
-      setErrorMessage(null); // Reset the error message because we are trying to submit the form again
+      // setLoading(true); // here we are starting the loading state
+      // setErrorMessage(null); // Reset the error message because we are trying to submit the form again
+      dispatch(signInStart()); 
+
       const res = await fetch('/api/auth/signin', {
         method: 'POST', // POST because we are sending data to the server
         headers: {
@@ -30,18 +37,24 @@ export default function SignIn() {
         },
         body: JSON.stringify(formData) // Convert the object to a JSON string
       });
+
       const data = await res.json();
       if(data.success === false) {
-        setErrorMessage(data.message);
+        //setErrorMessage(data.message);
+        dispatch(SignInFailure(data.message));
       }
-      setLoading(false); // here we are stopping the loading state
+
+      //setLoading(false); // here we are stopping the loading state
+      
       if(res.ok) {
+        dispatch(SignInSuccess(data));
         navigate('/');
       }
       //check network tab for response
     } catch (error) {
-        setErrorMessage(error.message);
-        setLoading(false); // here we are stopping the loading state
+        // setErrorMessage(error.message);
+        // setLoading(false); // here we are stopping the loading state
+        dispatch(SignInFailure(error.message));
     }
   }
   

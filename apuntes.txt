@@ -59,3 +59,7 @@ npm install nodemon  //para que este atento a los cambios que yo haga
  npm i bcryptjs //para hashear password
 
  npm i jsonwebtoken // jwt is a standard for access tokens, which is a JSON object that contains information about the user and the token itself
+
+ redux toolkit es para mantener la sesion inicado gracias a los datos que se guardan
+ npm install @reduxjs/toolkit  //se instala en el frontend client
+ npm install react-redux

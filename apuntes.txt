@@ -63,3 +63,4 @@ npm install nodemon  //para que este atento a los cambios que yo haga
  redux toolkit es para mantener la sesion inicado gracias a los datos que se guardan
  npm install @reduxjs/toolkit  //se instala en el frontend client
  npm install react-redux
+ npm i redux-persist

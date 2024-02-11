@@ -8,6 +8,10 @@ export const test = (req, res) => { // Test route for the API to check if it's w
 };
 
 
+//req.body es el objeto que se envia en el body de la peticion
+//req.user es el objeto que se envia en el token del archivo verifyUser.js carpeta utils
+
+
 export const updateUser = async(req, res, next) => {
     // here we are checking if the user is trying to update their own account
    if(req.user.id !== req.params.userId){

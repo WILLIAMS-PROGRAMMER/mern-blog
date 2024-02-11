@@ -2,7 +2,7 @@ import express from 'express';
 import { signup, signin, google } from '../controllers/auth.controller.js';
 
 
-const router = express.Router();
+const router = express.Router(); // Create a new router
 
 router.post('/signup', signup); // Signup route
 router.post('/signin', signin); // Signin route

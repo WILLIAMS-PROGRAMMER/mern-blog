@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js'; // Import user routes
 import authRoutes from './routes/auth.route.js'; // Import auth routes
+import postRoutes from './routes/post.route.js'; // Import post routes
+
 import cookieParser from 'cookie-parser';
 
 dotenv.config();                    // Load environment variables
@@ -27,6 +29,7 @@ app.listen(3000, () => {    // Start server
 // this is for testing purposes at the beginning,now not
 app.use('/api/user', userRoutes);   // Use user routes
 app.use('/api/auth', authRoutes);   // Use auth routes
+app.use('/api/post', postRoutes);  // Use post routes
 
 app.use((err, req, res, next) => {  // Error handling middleware
     const statusCode = err.statusCode || 500; // If there is a status code in the error, use it, otherwise use 500

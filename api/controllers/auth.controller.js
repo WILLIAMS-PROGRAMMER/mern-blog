@@ -45,8 +45,8 @@ export const signin = async (req, res, next) => {  //req: request, res: response
             return next(errorHandler(400, "Invalid credentials!") ); // Pass the error to the error handling middleware (in api/index.js)
         }
 
-        //everything fine, create the token
-        const token = jwt.sign({id: validUser._id}, process.env.JWT_SECRET, {expiresIn: '1h'}); // Create the token
+        //everything fine, create the token  of the user(we are using jwt for this purpose), isAdmin is a custom field that we are adding to the token
+        const token = jwt.sign({id: validUser._id, isAdmin: validUser.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1h'}); // Create the token
         
         const {password:pass, ...rest} = validUser._doc; // Remove the password from the user object
 
@@ -69,7 +69,8 @@ export const google = async (req, res, next) => { //next for error handling
         // el usuario ya existe
         const validUser = await User.findOne({email}); // Find the user by email
         if(validUser){
-            const token = jwt.sign({id: validUser._id}, process.env.JWT_SECRET, {expiresIn: '1h'}); // Create the token
+            // Send the token in a cookie, the purpose of having a token is to authenticate the user
+            const token = jwt.sign({id: validUser._id, isAdmin: validUser.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1h'}); // Create the token
             const {password:pass, ...rest} = validUser._doc; // Remove the password from the user object
             res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest); // Send the token in a cookie
         } else {
@@ -79,7 +80,8 @@ export const google = async (req, res, next) => { //next for error handling
             email, password:hashedPassword, profilePicture:googlePhotoURL}); // Create a new user
             
             await newUser.save(); // Save the new user
-            const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET, {expiresIn: '1h'}); // Create the token
+            // Send the token in a cookie
+            const token = jwt.sign({id: newUser._id, isAdmin: newUser.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1h'}); // Create the token
             const {password:pass, ...rest} = newUser._doc; // Remove the password from the user object
             res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest); // Send the token in a cookie
         }

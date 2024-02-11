@@ -38,6 +38,7 @@ export default function Header() {
                 alt='user avatar'
                 img={currentUser.profilePicture}
                 rounded
+                status="online"
               />
             }>
               <Dropdown.Header>

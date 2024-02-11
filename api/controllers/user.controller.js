@@ -35,25 +35,24 @@ export const updateUser = async(req, res, next) => {
       if(!req.body.username.match(/^[a-z0-9_]+$/)){
          return next(errorHandler(400, "Username can only contain lowercase letters, numbers, and underscores!") );
       }
-
-      //NOTA: MONGODB revisa que no haiga usuarios duplicados
-      try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.userId,{
-          $set: { // Set the fields to update
-            username: req.body.username,
-            email: req.body.email,
-            profilePicture: req.body.profilePicture,
-            password: req.body.password,
-          }
-        }, {new: true}); // Return the updated user
-        const { password, ...rest } = updatedUser._doc; // Destructure the updated user and exclude the password
-        res.status(200).json(rest); // Send the updated user
-     } catch (error) {
-       next(error); // Pass the error to the error handling middleware (in api/index.js)
-     }
    }
 
- 
+   
+    //NOTA: MONGODB revisa que no haiga usuarios duplicados
+    try {
+      const updatedUser = await User.findByIdAndUpdate(req.params.userId,{
+        $set: { // Set the fields to update
+          username: req.body.username,
+          email: req.body.email,
+          profilePicture: req.body.profilePicture,
+          password: req.body.password,
+        }
+      }, {new: true}); // Return the updated user
+      const { password, ...rest } = updatedUser._doc; // Destructure the updated user and exclude the password
+      res.status(200).json(rest); // Send the updated user
+    } catch (error) {
+      next(error); // Pass the error to the error handling middleware (in api/index.js)
+    }
 
       
 };

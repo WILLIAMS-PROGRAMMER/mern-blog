@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit' // this is for creating a slice o
 // we can have multiple slices of the store and each slice can have its own reducer and actions
 
 const initialState = {
-    theme: 'light',
+    theme: 'dark',
 };
 
 const themeSlice = createSlice({
@@ -10,8 +10,7 @@ const themeSlice = createSlice({
     initialState, // this is the initial state of the slice
     reducers: {
       toggleTheme: (state) => {
-        state.theme = state.theme === 'light' ? 'dark' : 'light';
-        console.log('ddd');
+        state.theme = state.theme === 'dark' ? 'light' : 'dark';
       },
     },
 });

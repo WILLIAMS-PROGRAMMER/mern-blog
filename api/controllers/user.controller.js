@@ -68,4 +68,14 @@ export const deleteUser = async(req, res, next) => {
   } catch (error) {
     next(error); // Pass the error to the error handling middleware (in api/index.js)
   }
+};
+
+
+export const signout = (req, res,next) => {
+    try {
+        res.clearCookie('access_token').status(200).json('User has been signed out') // Clear the access token cookie
+    } catch (error) {
+        next(error); // Pass the error to the error handling middleware (in api/index.js)
+    }
 }
+

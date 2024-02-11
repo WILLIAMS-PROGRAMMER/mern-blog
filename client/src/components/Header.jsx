@@ -1,16 +1,35 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react'
 import { Link, useLocation } from 'react-router-dom' // permite que un usuario navegue a través de la aplicación sin recargar la página
 import React from 'react'
-import {AiOutlineSearch} from 'react-icons/ai'
-import {FaMoon, FaSun} from 'react-icons/fa'
+import {AiOutlineSearch} from 'react-icons/ai' // import the AiOutlineSearch icon
+import {FaMoon, FaSun} from 'react-icons/fa' // import the FaMoon and FaSun icons
 import { useSelector, useDispatch } from 'react-redux' // useselector is for accessing the state of the store
-import { toggleTheme } from '../redux/theme/themeSlice'
+// import the useDispatch hook for dispatching an action to the store
+import { toggleTheme } from '../redux/theme/themeSlice' // import the toggleTheme action for changing the theme
+import { signoutSuccess } from '../redux/user/userSlice' // import the signoutSuccess action for signing out the user
+
 
 export default function Header() {
   const path = useLocation().pathname;
   const dispatch = useDispatch(); // this is for dispatching an action to the store
   const { currentUser } = useSelector((state) => state.user); // this is for accessing the state of the store
   const { theme } = useSelector((state) => state.theme); // this is for accessing the state of the store
+
+  const handleSignOut = async () => {
+    try {
+         const res = await fetch('/api/user/signout', { 
+             method: 'POST', // send a post request
+         });
+         if(!res.ok) {
+            console.log('error signing out'); // log the error
+         } else {
+             dispatch(signoutSuccess()); // dispatch the signoutSuccess action
+         }
+    } catch (error) {
+         console.log('error signing out');
+    }
+  };
+
   return (
     <Navbar className='border-b-2'>
         <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
@@ -51,7 +70,7 @@ export default function Header() {
                    <Dropdown.Item>Profile</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />
-                <Dropdown.Item>Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
               </Dropdown.Header>
 
             </Dropdown>

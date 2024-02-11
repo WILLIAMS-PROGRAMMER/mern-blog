@@ -11,11 +11,12 @@ import 'react-circular-progressbar/dist/styles.css';
 import { updateStart, updateSuccess,updateFailure, deleteStart,deleteUserSuccess,deleteUserFailure, signoutSuccess } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 
 export default function DashProfile() {
 
-    const {currentUser, error} = useSelector(state => state.user); // this is for accessing the state of the store
+    const {currentUser, error, loading} = useSelector(state => state.user); // this is for accessing the state of the store
     const [imageFile, setImageFile] = useState(null); // this is for storing the image file
     const [imageFileURL, setImageFileURL] = useState(null); // this is for showing the image
     const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null); // this is for showing the progress bar
@@ -169,7 +170,18 @@ export default function DashProfile() {
             <TextInput type='text' onChange={handleChange} id='username' placeholder='username' defaultValue={currentUser.username}/>
             <TextInput type='email'  onChange={handleChange}  id='email' placeholder='email' defaultValue={currentUser.email}/>
             <TextInput type='password'  onChange={handleChange}  id='password' placeholder='we are not showing the password for security'/>
-            <Button type='submit' gradientDuoTone='purpleToBlue' outline>Save</Button>
+            <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled={loading}>
+                {loading ? 'Loading...' : 'Update'}
+            </Button>
+            {
+                currentUser.isAdmin && (
+                    // el '/' es para que el usuario sea redirigido a la ruta de create-post
+                    <Link to={'/create-post'}>
+                         <Button type='button' gradientDuoTone='purpleToPink' className='w-full'>Create a post</Button>
+                    </Link>
+                   
+                )
+            }
         </form>
         <div className='text-red-500 flex justify-between mt-5'>
             <span onClick={() => setShowModal(true)} className='cursor-pointer'>Delete Account</span>

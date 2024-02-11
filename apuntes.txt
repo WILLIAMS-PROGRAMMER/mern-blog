@@ -70,3 +70,5 @@ npm install nodemon  //para que este atento a los cambios que yo haga
  npm install --save react-circular-progressbar //barra circular react-circular
 
  npm i cookie-parser // Get the token from the cookies , ir a archivo verifyUser.js para entender,se importa en index.js
+
+ npm install react-quill --save // libreria npm 

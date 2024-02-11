@@ -10,7 +10,7 @@ const initialState = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {
+    reducers: { // these are the actions that we can dispatch to the store
        signInStart: (state) => {
            state.loading = true;
            state.error = null;
@@ -37,9 +37,22 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        deleteStart: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        deleteUserSuccess: (state) => { 
+            state.currentUser = null;
+            state.loading = false;
+            state.error = null;
+        },
+        deleteUserFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
     },
 });
 
-export const { signInStart, SignInSuccess, SignInFailure, updateStart, updateSuccess, updateFailure } = userSlice.actions;
+export const { signInStart, SignInSuccess, SignInFailure, updateStart, updateSuccess, updateFailure, deleteStart,deleteUserSuccess,deleteUserFailure } = userSlice.actions;
 
 export default userSlice.reducer;

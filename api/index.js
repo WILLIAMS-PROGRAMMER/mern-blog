@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js'; // Import user routes
 import authRoutes from './routes/auth.route.js'; // Import auth routes
+import cookieParser from 'cookie-parser';
 
 dotenv.config();                    // Load environment variables
 
@@ -17,11 +18,13 @@ const app = express(); // Create express app
 app.use(express.json()); // Use express json middleware
 //middleware is a function that has access to the request and response objects
 
+app.use(cookieParser()); // Use cookie parser middleware
+
 app.listen(3000, () => {    // Start server
   console.log('Server started on port 3000!');
 });
 
-// this is for testing purposes
+// this is for testing purposes at the beginning,now not
 app.use('/api/user', userRoutes);   // Use user routes
 app.use('/api/auth', authRoutes);   // Use auth routes
 

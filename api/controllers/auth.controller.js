@@ -65,7 +65,7 @@ export const google = async (req, res, next) => { //next for error handling
     }
 
     try {
-        console.log();
+       
         // el usuario ya existe
         const validUser = await User.findOne({email}); // Find the user by email
         if(validUser){

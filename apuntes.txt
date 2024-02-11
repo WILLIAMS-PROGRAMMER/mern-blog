@@ -68,3 +68,5 @@ npm install nodemon  //para que este atento a los cambios que yo haga
  npm install firebase for google auth
 
  npm install --save react-circular-progressbar //barra circular react-circular
+
+ npm i cookie-parser //

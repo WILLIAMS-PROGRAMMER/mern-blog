@@ -7,6 +7,7 @@ export const test = (req, res) => { // Test route for the API to check if it's w
   res.json({ message: 'API is working!!' });
 };
 
+
 export const updateUser = async(req, res, next) => {
     // here we are checking if the user is trying to update their own account
    if(req.user.id !== req.params.userId){
@@ -52,7 +53,19 @@ export const updateUser = async(req, res, next) => {
       res.status(200).json(rest); // Send the updated user
     } catch (error) {
       next(error); // Pass the error to the error handling middleware (in api/index.js)
-    }
-
-      
+    }  
 };
+
+
+export const deleteUser = async(req, res, next) => {
+  // here we are checking if the user is trying to delete their own account
+  if(req.user.id !== req.params.userId){
+    return next(errorHandler(403, "You can only delete your account!") ); // Pass the error to the error handling middleware (in api/index.js)
+  }
+  try {
+    await User.findByIdAndDelete(req.params.userId); // Delete the user
+    res.status(200).json({ message: "Account has been deleted!" }); // Send a success message
+  } catch (error) {
+    next(error); // Pass the error to the error handling middleware (in api/index.js)
+  }
+}

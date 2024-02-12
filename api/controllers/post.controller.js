@@ -11,7 +11,7 @@ export const create = async (req, res, next) => {
         return next(errorHandler(403, "You are not allowed to create a post"));
     }
     if(!req.body.title || !req.body.content) {
-        return next(errorHandler(400, "Title and content are required"));
+        return next(errorHandler(400, "Title and content are required")); //next es una funcion que se ejecuta cuando hay un error,viene de express
     }
     //slug is a URL friendly version of the title
     const slug = req.body.title.toLowerCase().split(" ").join("-").replace(/[^a-zA-Z0-9-]/g, "-");

@@ -49,19 +49,20 @@ export default function DashUsers() {
 
   const handleDeleteUser = async () => {
       setShowModal(false);
-    //   try {
-    //       const response = await fetch(`/api/user/deleteuser/${userIdDelete}/${currentUser._id}`, {
-    //           method: 'DELETE',
-    //       });
-    //       const data = await response.json();
-    //       if(!response.ok) {
-    //          console.log(data.message);
-    //       } else {
-    //           setUserPosts((prev) => prev.filter((post) => post._id !== postIdDelete)); //esto es para que se actualice el estado de userPosts sin recargar pagina
-    //       }
-    //   } catch (error) {
-    //       console.log(error);
-    //   }
+      try {
+          const response = await fetch(`/api/user/delete/${userIdDelete}`, { // esto seria el params.userId en usercontroller.js linea 40
+              method: 'DELETE',
+          });
+          const data = await response.json();
+          if(!response.ok) {
+             console.log(data.message);
+          } else {
+              setUsers((prev) => prev.filter((user) => user._id !== userIdDelete)); //esto es para que se actualice el estado de userPosts sin recargar pagina
+                setShowModal(false);
+            }
+      } catch (error) {
+          console.log(error);
+      }
   };
 
   return (

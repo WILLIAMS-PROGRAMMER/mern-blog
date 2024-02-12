@@ -63,11 +63,11 @@ export const updateUser = async(req, res, next) => {
 
 export const deleteUser = async(req, res, next) => {
   // here we are checking if the user is trying to delete their own account
-  if(req.user.id !== req.params.userId){
+  if(!req.user.isAdmin && req.user.id !== req.params.userId){ // si el usuaario es admin puede eliminar otros perfiles
     return next(errorHandler(403, "You can only delete your account!") ); // Pass the error to the error handling middleware (in api/index.js)
   }
   try {
-    await User.findByIdAndDelete(req.params.userId); // Delete the user
+    await User.findByIdAndDelete(req.params.userId); // Delete the user,params.userId es el id que se envia en la url de la peticion,no de la pagina
     res.status(200).json({ message: "Account has been deleted!" }); // Send a success message
   } catch (error) {
     next(error); // Pass the error to the error handling middleware (in api/index.js)

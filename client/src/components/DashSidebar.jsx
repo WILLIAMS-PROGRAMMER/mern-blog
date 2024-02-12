@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"; //useEffect is for performing side 
 import { useSelector } from 'react-redux'; // useselector is for accessing the state of the store
 import { signoutSuccess } from '../redux/user/userSlice'; // import the signoutSuccess action
 import { useDispatch } from 'react-redux'; // useDispatch is for dispatching actions
+import { HiOutlineUserGroup } from 'react-icons/hi';
 
 export default function DashProfile() {
     const dispatch = useDispatch(); // this is for dispatching actions
@@ -70,6 +71,15 @@ export default function DashProfile() {
                 <Link to="/dashboard/?tab=posts">
                     <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} as='div'>Posts</Sidebar.Item>
                 </Link>
+                
+                )}
+
+                
+                {currentUser.isAdmin && (
+                <Link to="/dashboard/?tab=users">
+                    <Sidebar.Item active={tab === 'users'} icon={HiOutlineUserGroup} as='div'>Users</Sidebar.Item>
+                </Link>
+                
                 )}
 
                 <Sidebar.Item  icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignOut} >Sign out</Sidebar.Item>

@@ -83,3 +83,29 @@ export const signout = (req, res,next) => {
     }
 }
 
+
+
+export const getusers = async(req, res, next) => {
+    if(!req.user.isAdmin){
+      return next(errorHandler(403, "You are not authorized to view all users!") ); // Pass the error to the error handling middleware (in api/index.js)
+    }
+
+    try {
+      const startIndex =  parseInt(req.query.startIndex) || 0;
+      const limit = parseInt(req.query.limit) || 9;
+      const sortDirection = req.query.sort === 'asc' ? 1 : -1;
+      const users = await User.find().skip(startIndex).limit(limit).sort({createdAt: sortDirection}); // Find all users
+      const usersWithoutPassword = users.map(user => { // Map through the users and exclude the password
+        const { password, ...rest } = user._doc; // Destructure the user and exclude the password,._doc is a method that returns the raw object from the database
+        return rest;
+      });
+      const totalUsers = await User.countDocuments(); // Count the total number of users
+      const now = new Date();
+      const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+      const lastMonthUsers = await User.countDocuments({ createdAt: { $gte: oneMonthAgo } }); // Count the number of users created in the last month
+    
+      res.status(200).json({ users: usersWithoutPassword, totalUsers, lastMonthUsers }); // Send the users, total number of users, and number of users created in the last month
+    } catch (error) {
+      next(error); // Pass the error to the error handling middleware (in api/index.js)
+    }
+};

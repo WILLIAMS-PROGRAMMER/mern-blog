@@ -39,9 +39,9 @@ export const getposts = async (req, res, next) => {
         const sortDirection = req.query.order === 'asc' ? 1: -1; //sortDirection es la direccion en la que se quieren ordenar los posts
         const posts = await Post.find({
             ...(req.query.userId && {userId: req.query.userId}), //if userId is in the query, add it to the query
-            ...(req.query.category && {category: req.query.userId}), //if userId is in the query, add it to the query
-            ...(req.query.slug && {slug: req.query.userId}), //if userId is in the query, add it to the query
-            ...(req.query.postId && {_id: req.query.userId}), //if userId is in the query, add it to the query
+            ...(req.query.category && {category: req.query.category}), //if userId is in the query, add it to the query
+            ...(req.query.slug && {slug: req.query.slug}), //if userId is in the query, add it to the query
+            ...(req.query.postId && {_id: req.query.postId}), //if userId is in the query, add it to the query
             ...(req.query.searchTerm && {
                 $or: [ // or is a mongoDB operator that allows us to query for multiple fields, regex is a mongoDB operator that allows us to query for a string that matches a pattern
                     {title: { $regex: req.query.searchTerm, $options: "i" }}, //if userId is in the query, add it to the query
@@ -66,11 +66,34 @@ export const getposts = async (req, res, next) => {
 
 export const deletePost = async (req, res, next) => {
     if(!req.user.isAdmin || req.user.id !== req.params.userId) {
-        return next(errorHandler(403, "You are not allowed to delete a post"));
+        return next(errorHandler(403, "You are not allowed to delete this post"));
     }
     try {
         await Post.findByIdAndDelete(req.params.postId);
         res.status(200).json("Post has been deleted");
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+export const updatepost = async (req, res, next) => {
+    if(!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, "You are not allowed to update this post"));
+    }
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(req.params.postId,
+            { $set: {
+                 title: req.body.title,
+                 content: req.body.content,
+                 category: req.body.category,
+                 image: req.body.image,
+                }
+            }, // $set is a mongoDB operator that allows us to update a document
+            { new: true } // new is a mongoDB option that allows us to return the updated document
+        );
+        res.status(200).json(updatedPost);
+       
     } catch (error) {
         next(error);
     }

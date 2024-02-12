@@ -62,3 +62,16 @@ export const getposts = async (req, res, next) => {
         next(error); // next come from express, it is a function that is called when there is an error
     }
 }
+
+
+export const deletePost = async (req, res, next) => {
+    if(!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, "You are not allowed to delete a post"));
+    }
+    try {
+        await Post.findByIdAndDelete(req.params.postId);
+        res.status(200).json("Post has been deleted");
+    } catch (error) {
+        next(error);
+    }
+};

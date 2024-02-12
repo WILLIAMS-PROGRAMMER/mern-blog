@@ -1,5 +1,5 @@
 import {Sidebar} from 'flowbite-react'
-import {HiArrowSmRight, HiUser} from 'react-icons/hi'
+import {HiArrowSmRight, HiDocumentText, HiUser} from 'react-icons/hi'
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"; //useEffect is for performing side effects in your function components
 import { useSelector } from 'react-redux'; // useselector is for accessing the state of the store
@@ -61,12 +61,20 @@ export default function DashProfile() {
   return (
     <Sidebar className='w-full md:w-56'>
         <Sidebar.Items>
-            <Sidebar.ItemGroup>
+            <Sidebar.ItemGroup className='flex flex-col gap-1'>
                 <Link to="/dashboard/?tab=profile">
-                    <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={"User"} labelColor="dark" as='div'>Profile</Sidebar.Item>
+                    <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : 'User'} labelColor="dark" as='div'>Profile</Sidebar.Item>
                 </Link>
+
+                {currentUser.isAdmin && (
+                <Link to="/dashboard/?tab=posts">
+                    <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} as='div'>Posts</Sidebar.Item>
+                </Link>
+                )}
+
                 <Sidebar.Item  icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignOut} >Sign out</Sidebar.Item>
-                <Sidebar.Item className='mt-[430px] font-light'>Cuenta creada el: <br />
+                
+                <Sidebar.Item className='mt-[330px] font-light'>Cuenta creada el: <br />
                      <span className='font-semibold'>{formattedDate1}</span>
                 </Sidebar.Item>
                 <Sidebar.Item className='font-light'>Cuenta actualizada el: <br />

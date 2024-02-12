@@ -23,7 +23,7 @@ export const create = async (req, res, next) => {
 
     try {
         const savedPost = await newPost.save();
-        res.status(201).json(savedPost);
+        res.status(201).json(savedPost); // se retorna savedPost, que es el post que se acaba de guardar, es un objeto
     } catch (error) {
         next(error);  //error duplicate key porque en el modelo de post , titulo es unique y slug es unique, eso causa error
     }

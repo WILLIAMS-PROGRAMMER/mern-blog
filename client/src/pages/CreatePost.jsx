@@ -70,7 +70,7 @@ export default function CreatePost() {
                 return;
             } else {
                 setPublishError(null); // Reset the error of the previous request
-                navigate(`/post/${data.slug}`); // Redirect to the home page
+                navigate(`/post/${data.slug}`); // Redirect to the home page,data.slug es podsible gracias a res.status(201).json(savedPost); // en post.controller.js
                 //data.slug se obtiene del backend con next en post.controller.js, slug es el titulo de la publicacion pero con guiones
             }
 

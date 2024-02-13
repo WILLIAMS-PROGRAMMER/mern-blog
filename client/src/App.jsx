@@ -12,10 +12,13 @@ import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute"
 import CreatePost from "./pages/CreatePost"
 import UpdatePost from "./pages/UpdatePost"
 import PostPage from "./pages/PostPage"
+import ScrollToTop from "./components/ScrollToTop"
 
 export default function App() {
+  //ScrollToTop es un componente que se encarga de hacer scroll hacia arriba cada vez que se cambia de ruta
   return (
     <BrowserRouter>
+      <ScrollToTop/>
       <Header/>
       <Routes>
         <Route path="/" element={<Home />} />

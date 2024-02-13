@@ -75,3 +75,5 @@ npm install nodemon  //para que este atento a los cambios que yo haga
 
  npm install --save-dev tailwind-scrollbar // libreria npm
  en el archivo de tailwindcss ,colocar require('tailwind-scrollbar');
+
+ npm i moment // package for time

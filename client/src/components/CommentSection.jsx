@@ -1,7 +1,8 @@
 import {  Alert, Button, Textarea } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
+import Comment from './Comment';
 
 
 export default function CommentSection({postId}) { //postId es un prop que se pasa desde PostPage.jsx
@@ -9,6 +10,7 @@ export default function CommentSection({postId}) { //postId es un prop que se pa
     const {currentUser} = useSelector(state => state.user); // useSelector es un hook de react-redux que permite acceder al estado de redux
     const [comment, setComment] = useState(''); // comments es un estado que se inicializa como un array vacio
     const [error, setError] = useState(''); // error es un estado que se inicializa como un string vacio
+    const [comments, setComments] = useState([]); // comments es un estado que se inicializa como un array vacio
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevent the default behavior of the form
@@ -27,14 +29,33 @@ export default function CommentSection({postId}) { //postId es un prop que se pa
             if(res.ok) {
                 setComment(''); // clear the comment input field
                 setError(''); // clear the error state
+                setComments([data, ...comments]); // add the new comment to the comments state
             } else {
                 setError(data.message); // set the error state to display an error message
             }
         } catch (error) {
             setError(error.message); // set the error state to display an error message
-        }
-     
+        }  
     };
+
+    useEffect(() => {
+        const getComments = async () => {
+            try {
+                const res = await fetch(`/api/comment/getPostComments/${postId}`); // fetch the get comments endpoint
+                const data = await res.json(); // parse the response body
+                if(res.ok) {
+                    setComments(data); // set the comments state to the response body
+                } else {
+                    setError(data.message); // set the error state to display an error message
+                }
+            } catch (error) {
+                setError(error.message); // set the error state to display an error message
+            }
+        }
+        getComments();
+    }, [postId]); // useEffect se ejecuta cuando postId cambia
+
+    console.log(comments);
 
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -63,13 +84,30 @@ export default function CommentSection({postId}) { //postId es un prop que se pa
                </div>
 
                {error && <Alert color='failure' className='mt-5'>{error}</Alert>}
-            </form>
-           
-          
-            
+            </form>    
+        )}
+
+        {comments.length == 0 ? (
+            <p className='text-sm my-5'>Be the first user to comment!!!</p>
+        ) :
+        ( 
+            <>
+                <div className="text-sm my-5 flex items-center gap-1">
+                    <p>Comments</p>
+                    <div className='border border-gray-400 py-1 px-2 rounded-sm'>
+                        <p>{comments.length}</p>
+                    </div>
+                </div>
+                {comments.map(comment => (
+                    <Comment key={comment._id} comment={comment}/>
+                ))}
+            </>
+
+
         )}
     </div>
   )
 }
 
+ // <>  React.Fragment
 //value={comment} es para actualizar en el frontendel valor de commetn para que el ususrio tenga mjor experinecia

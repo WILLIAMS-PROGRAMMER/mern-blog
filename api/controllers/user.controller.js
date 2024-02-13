@@ -109,3 +109,17 @@ export const getusers = async(req, res, next) => {
       next(error); // Pass the error to the error handling middleware (in api/index.js)
     }
 };
+
+
+export const getUser = async(req, res, next) => {
+  try {
+      const user = await User.findById(req.params.userId); // Find the user by id
+      if(!user) {
+          return next(errorHandler(404, "User not found!") ); // Pass the error to the error handling middleware (in api/index.js)
+      }
+      const { password, ...rest } = user._doc; // Destructure the user and exclude the password
+      res.status(200).json(rest); // Send the user
+  } catch (error) {
+      next(error); // Pass the error to the error handling middleware (in api/index.js)
+  }
+};

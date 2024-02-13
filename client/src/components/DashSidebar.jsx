@@ -1,11 +1,11 @@
 import {Sidebar} from 'flowbite-react'
-import {HiArrowSmRight, HiDocumentText, HiUser} from 'react-icons/hi'
+import {HiArrowSmRight, HiBookOpen, HiDocumentText, HiUser, HiOutlineUserGroup, HiEye} from 'react-icons/hi'
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"; //useEffect is for performing side effects in your function components
 import { useSelector } from 'react-redux'; // useselector is for accessing the state of the store
 import { signoutSuccess } from '../redux/user/userSlice'; // import the signoutSuccess action
 import { useDispatch } from 'react-redux'; // useDispatch is for dispatching actions
-import { HiOutlineUserGroup } from 'react-icons/hi';
+
 
 export default function DashProfile() {
     const dispatch = useDispatch(); // this is for dispatching actions
@@ -84,11 +84,11 @@ export default function DashProfile() {
 
                 <Sidebar.Item  icon={HiArrowSmRight} className='cursor-pointer' onClick={handleSignOut} >Sign out</Sidebar.Item>
                 
-                <Sidebar.Item className='mt-[330px] font-light'>Cuenta creada el: <br />
-                     <span className='font-semibold'>{formattedDate1}</span>
+                <Sidebar.Item icon={HiBookOpen} className='font-light'>Cuenta creada el: <br />
+                     <span className=' text-sm'>{formattedDate1}</span>
                 </Sidebar.Item>
-                <Sidebar.Item className='font-light'>Cuenta actualizada el: <br />
-                     <span className='font-semibold'>{formattedDate2}</span>
+                <Sidebar.Item icon={HiEye} className='font-light'>Cuenta actualizada el: <br />
+                     <span className=' text-sm'>{formattedDate2}</span>
                 </Sidebar.Item>
             </Sidebar.ItemGroup>
         </Sidebar.Items>
@@ -96,4 +96,4 @@ export default function DashProfile() {
   )
 }
 
-
+// //br is for line break

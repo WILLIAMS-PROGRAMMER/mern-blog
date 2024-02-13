@@ -6,7 +6,34 @@ body {
   height: 100vh;
 }
 
+/* quil editor is a rich text editor that is used in the app for creating and editing posts and comments */
 .ql-editor {
   font-size: 1.09rem;
+}
 
+.post-content p {
+  margin-bottom: 0.5rem;
+}
+
+/* rem is a unit of measurement that is relative to the font-size of the root element */
+.post-content h1 {
+  font-size: 1.5rem; 
+  font-weight: 600;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h2 {
+  font-size: 1.4rem; 
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content a {
+  color: rgb(73,149,199);
+  text-decoration: none;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
 }

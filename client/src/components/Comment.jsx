@@ -4,7 +4,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button, Textarea } from "flowbite-react";
 
-export default function Comment({comment, onLike, onEdit}) { // commetn es un prop que se pasa desde CommentSection.jsx
+export default function Comment({comment, onLike, onEdit, onDelete}) { // commetn es un prop que se pasa desde CommentSection.jsx
     const [user, setUser] = useState({}); // user es un estado que se inicializa como un objeto vacio
     const {currentUser} = useSelector(state => state.user); // useSelector es un hook de react-redux que permite acceder al estado de redux
     const [isEditing, setIsEditing] = useState(false); // isEditing es un estado que se inicializa como un booleano falso
@@ -55,6 +55,10 @@ export default function Comment({comment, onLike, onEdit}) { // commetn es un pr
         }
     };
 
+    // const handleDelete = async () => {
+     
+    // };
+
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">
         <div className=" flex-shrink-0 mr-3">
@@ -97,14 +101,24 @@ export default function Comment({comment, onLike, onEdit}) { // commetn es un pr
                         <p className="text-gray-400">
                             {comment.numberOfLikes} {comment.numberOfLikes === 1 ? 'like' : 'likes'}
                         </p>
-                        {
+                        { // <> </> es un fragmento de react
+                           
                             ((currentUser._id === comment.userId) || currentUser.isAdmin) && (
-                                <button 
+                                <>
+                                    <button 
+                                        type="button"
+                                        className="text-gray-400 hover:text-blue-500"
+                                        onClick={handleEdit}>
+                                            Edit
+                                    </button>
+
+                                    <button 
                                     type="button"
-                                    className="text-gray-400 hover:text-blue-500"
-                                    onClick={handleEdit}>
-                                        Edit
-                                </button>
+                                    className="text-gray-400 hover:text-red-500"
+                                    onClick={() => onDelete(comment._id)}>
+                                        Delete
+                                    </button>
+                                </>
                             )
                         }
                     </div>

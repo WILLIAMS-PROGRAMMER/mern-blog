@@ -10,9 +10,10 @@ export default function CallToAction() {
                 <a href="https://www.youtube.com/watch?v=EGHP_mP2Iuk" target="_blank" rel="noopener noreferrer">Learn more</a>
             </Button>
         </div>
-        <div className="p-7 flex-1 h-[250px]">
-            <img className="h-[200px] w-[380px]" src="https://blog.interfell.com/hubfs/JavaScript%20un%20lenguaje%20de%20programaci%C3%B3n.jpg" />
+        <div className="p-7 flex-1">
+            <img  src="https://blog.interfell.com/hubfs/JavaScript%20un%20lenguaje%20de%20programaci%C3%B3n.jpg" />
         </div>
     </div>
   )
 }
+

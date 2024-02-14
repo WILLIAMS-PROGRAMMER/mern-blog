@@ -11,12 +11,12 @@ export default function OAuth() {
     // Hooks for navigation (to redirect the user to another page)
     const navigate = useNavigate();
 
-    const auth = getAuth(app);
+    const auth = getAuth(app); // this is the auth object that we use to sign in with Google ,app is the firebase app that we imported from firebase.js
     const handleGoogleClick =  async () => {
-       const provider = new GoogleAuthProvider();
-       provider.setCustomParameters({ prompt: 'select_account' });
+       const provider = new GoogleAuthProvider(); // this is the provider that we use to sign in with Google
+       provider.setCustomParameters({ prompt: 'select_account' }); // this is the custom parameter that we use to prompt the user to select an account
        try {
-            const result = await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, provider); // this is the function that we use to sign in with Google
            const res = await fetch('/api/auth/google', {
                 method: 'POST',
                 headers: {

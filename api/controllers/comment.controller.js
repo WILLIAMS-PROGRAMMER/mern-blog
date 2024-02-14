@@ -28,3 +28,24 @@ export const getComments = async (req, res, next) => {
         next(error);
     }
 }
+
+export const likeComment = async (req, res, next) => {
+        try {
+            const comment = await Comment.findById(req.params.commentId); // find the comment by the id from the url
+            if(!comment) return next(errorHandler(404, 'Comment not found')); // if the comment does not exist, return an error
+            
+            
+            const userIndex = comment.likes.indexOf(req.user.id); // find the index of the user's id in the likes array of the comment
+            if(userIndex === -1) { // if the user's id is not in the likes array
+                comment.numberOfLikes ++; // increment the numberOfLikes field by 1
+                comment.likes.push(req.user.id); // add the user's id to the likes array
+            } else {
+                comment.numberOfLikes --; // decrement the numberOfLikes field by 1
+                comment.likes.splice(userIndex, 1); // remove the user's id from the likes array
+            }
+            await comment.save(); // save the updated comment to the database
+            res.status(200).json(comment); // return the updated comment as a json response
+        } catch (error) {
+            next(error);
+        }
+};

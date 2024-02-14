@@ -7,14 +7,15 @@ import { useSelector, useDispatch } from 'react-redux' // useselector is for acc
 // import the useDispatch hook for dispatching an action to the store
 import { toggleTheme } from '../redux/theme/themeSlice' // import the toggleTheme action for changing the theme
 import { signoutSuccess } from '../redux/user/userSlice' // import the signoutSuccess action for signing out the user
-
+import { useNavigate } from 'react-router-dom' // useNavigate is a hook from react-router-dom that allows you to navigate to a route
 
 export default function Header() {
   const path = useLocation().pathname;
   const dispatch = useDispatch(); // this is for dispatching an action to the store
   const { currentUser } = useSelector((state) => state.user); // this is for accessing the state of the store
   const { theme } = useSelector((state) => state.theme); // this is for accessing the state of the store
-
+  const navigate = useNavigate(); // useNavigate is a hook from react-router-dom that allows you to navigate to a route
+  
   const handleSignOut = async () => {
     try {
          const res = await fetch('/api/user/signout', { 
@@ -24,6 +25,7 @@ export default function Header() {
             console.log('error signing out'); // log the error
          } else {
              dispatch(signoutSuccess()); // dispatch the signoutSuccess action
+             navigate('/sign-up'); // navigate to the home route
          }
     } catch (error) {
          console.log('error signing out');

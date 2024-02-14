@@ -8,7 +8,7 @@ export default function DashPosts() {
   const {currentUser} = useSelector(state => state.user);
   const [userPosts, setUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); // this is for the open and close modal
   const [postIdDelete, setPostIdDelete] = useState('');
 
   console.log(userPosts);

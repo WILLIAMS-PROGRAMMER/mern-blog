@@ -12,10 +12,10 @@ export default function SignUp() {
   // Hooks for navigation (to redirect the user to another page)
   const navigate = useNavigate();
 
-  const handleChange = (e) => {          //trim removes white spaces
+  const handleChange = (e) => {          //trim removes white spaces of the beginning and end
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() }); // Spread the previous state and add the new value
   };
-  
+  console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submit ,so the page won't refresh
     if(!formData.username || !formData.email || !formData.password) {

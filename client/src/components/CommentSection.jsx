@@ -1,7 +1,7 @@
 import {  Alert, Button, Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Comment from './Comment';
 
 
@@ -11,6 +11,7 @@ export default function CommentSection({postId}) { //postId es un prop que se pa
     const [comment, setComment] = useState(''); // comments es un estado que se inicializa como un array vacio
     const [error, setError] = useState(''); // error es un estado que se inicializa como un string vacio
     const [comments, setComments] = useState([]); // comments es un estado que se inicializa como un array vacio
+    const navigate = useNavigate(); // useNavigate es un hook de react-router-dom que permite navegar a una ruta
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // prevent the default behavior of the form
@@ -57,6 +58,32 @@ export default function CommentSection({postId}) { //postId es un prop que se pa
 
     console.log(comments);
 
+    const handleLike = async (commentId) => {
+        try {
+            if(!currentUser) { // if there is no user, return (do nothing
+                navigate('/sign-in'); // navigate to the sign in page
+                return;
+            }
+
+            const res = await fetch(`/api/comment/likeComment/${commentId}`, { // fetch the like comment endpoint
+                method: 'PUT', // send a PUT request
+            });
+            const data = await res.json(); // parse the response body
+            if(res.ok) {
+                setComments(comments.map(comment => comment._id === commentId ? {
+                    ...comment,
+                    likes: data.likes,
+                    numberOfLikes: data.numberOfLikes
+                } : comment)); // update the comments state with the updated comment
+            } else {
+                setError(data.message); // set the error state to display an error message
+            }
+        } catch (error) {
+            setError(error.message); // set the error state to display an error message
+        }
+    };
+    console.log(comments,'comments');
+
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
         {currentUser ? (
@@ -99,7 +126,7 @@ export default function CommentSection({postId}) { //postId es un prop que se pa
                     </div>
                 </div>
                 {comments.map(comment => (
-                    <Comment key={comment._id} comment={comment}/>
+                    <Comment key={comment._id} comment={comment} onLike={handleLike}/>
                 ))}
             </>
 

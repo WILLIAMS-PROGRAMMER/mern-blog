@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom" // useParams is a hook that allows you to access the URL parameters of the page
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
 
 export default function PostPage() {
 
@@ -10,6 +11,7 @@ export default function PostPage() {
     const [loading, setLoading] = useState(true); // this is for loading the page
     const [error, setError] = useState(false); // this is for handling errors
     const [post, setPost] = useState(null); // this is for setting the post
+    const [recentPosts, setRecentPosts] = useState(null); // this is for setting the recent posts
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -36,6 +38,19 @@ export default function PostPage() {
         fetchPost();
     }, [postSlug])
 
+    useEffect(() => {
+        try {
+            const fecthRecentPosts = async () => {
+                const res = await fetch('/api/post/getposts?limit=3'); //limit=3 es el query string
+                const data = await res.json();
+                setRecentPosts(data.posts);
+            }
+            fecthRecentPosts();
+        } catch (error) {
+            console.log(error.message);
+        }
+    }, [])
+
     if(loading) return (
         <div className="flex justify-center items-center min-h-screen">
             <Spinner size='xl' />
@@ -60,6 +75,17 @@ export default function PostPage() {
             <CallToAction />
         </div>
         <CommentSection postId={post._id} />
+
+        <div className="flex flex-col justify-center items-center mb-5">
+            <h1 className="text-xl mt-5">Recent articles</h1>
+            <div className="flex flex-wrap gap-5 mt-5 justify-center">
+                {recentPosts && recentPosts.map((post, index) => {
+                   return <PostCard key={index} post={post} />
+                })}
+            </div>
+        </div>
     </main>
   
 }
+
+// no es crecomedado pasar index como key, dehecho en esete ultimo caso puede haber utilizado post._id como key

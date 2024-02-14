@@ -93,7 +93,7 @@ export const getusers = async(req, res, next) => {
     try {
       const startIndex =  parseInt(req.query.startIndex) || 0;
       const limit = parseInt(req.query.limit) || 9;
-      const sortDirection = req.query.sort === 'asc' ? 1 : -1;
+      const sortDirection = req.query.sort === 'asc' ? 1 : -1; 
       const users = await User.find().skip(startIndex).limit(limit).sort({createdAt: sortDirection}); // Find all users
       const usersWithoutPassword = users.map(user => { // Map through the users and exclude the password
         const { password, ...rest } = user._doc; // Destructure the user and exclude the password,._doc is a method that returns the raw object from the database

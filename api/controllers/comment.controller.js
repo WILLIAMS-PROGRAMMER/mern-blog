@@ -83,7 +83,7 @@ export const getAllComments = async (req, res, next) => {
     try {
         const startIndex = parseInt(req.query.startIndex) || 0; // parse the startIndex from the query string of the request
         const limit = parseInt(req.query.limit) || 9; // parse the limit from the query string of the request
-        const sortDirection = req.query.sort == 'desc' ? -1 : 1; // parse the sortDirection from the query string of the request
+        const sortDirection = req.query.sort == 'asc' ? 1 : -1; // parse the sortDirection from the query string of the request
         const comments = await Comment.find().sort({createdAt: sortDirection}).skip(startIndex).limit(limit); // find all comments, sort them by the createdAt field in the sortDirection, skip the startIndex, and limit the number of comments
 
         const totalComments = await Comment.countDocuments(); // count the total number of comments

@@ -76,3 +76,25 @@ export const deleteComment = async (req, res, next) => {
         next(error);
     }
 };
+
+
+export const getAllComments = async (req, res, next) => {
+    if(!req.user.isAdmin) return next(errorHandler(403, 'You are not allowed to get all comments') ); // if the user is not an admin, return an error
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0; // parse the startIndex from the query string of the request
+        const limit = parseInt(req.query.limit) || 9; // parse the limit from the query string of the request
+        const sortDirection = req.query.sort == 'desc' ? -1 : 1; // parse the sortDirection from the query string of the request
+        const comments = await Comment.find().sort({createdAt: sortDirection}).skip(startIndex).limit(limit); // find all comments, sort them by the createdAt field in the sortDirection, skip the startIndex, and limit the number of comments
+
+        const totalComments = await Comment.countDocuments(); // count the total number of comments
+        const now = new Date(); // create a new Date object
+        const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate()); // create a new Date object for one month ago
+        const lastMonthComments = await Comment.countDocuments({createdAt: {$gte: oneMonthAgo}}); // count the number of comments created in the last month
+
+        res.status(200).json({comments, totalComments, lastMonthComments}); // return the comments, totalComments, and lastMonthComments as a json response
+    } catch (error) {
+        next(error);
+    }
+};
+
+//skip startindex significa que si startIndex es 0, entonces no se salta ningun comentario, si startIndex es 1, entonces se salta el primer comentario, si startIndex es 2, entonces se salta los dos primeros comentarios, y asi sucesivamente

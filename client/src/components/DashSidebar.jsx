@@ -1,5 +1,5 @@
 import {Sidebar} from 'flowbite-react'
-import {HiArrowSmRight, HiBookOpen, HiDocumentText, HiUser, HiOutlineUserGroup, HiEye} from 'react-icons/hi'
+import {HiArrowSmRight, HiBookOpen, HiDocumentText, HiUser, HiOutlineUserGroup, HiEye, HiAnnotation} from 'react-icons/hi'
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"; //useEffect is for performing side effects in your function components
 import { useSelector } from 'react-redux'; // useselector is for accessing the state of the store
@@ -76,9 +76,15 @@ export default function DashProfile() {
 
                 
                 {currentUser.isAdmin && (
-                <Link to="/dashboard/?tab=users">
-                    <Sidebar.Item active={tab === 'users'} icon={HiOutlineUserGroup} as='div'>Users</Sidebar.Item>
-                </Link>
+                <>
+                    <Link to="/dashboard/?tab=users">
+                        <Sidebar.Item active={tab === 'users'} icon={HiOutlineUserGroup} as='div'>Users</Sidebar.Item>
+                    </Link>
+
+                    <Link to="/dashboard/?tab=comments">
+                        <Sidebar.Item active={tab === 'comments'} icon={HiAnnotation} as='div'>Comments</Sidebar.Item>
+                    </Link>
+                </>
                 
                 )}
 

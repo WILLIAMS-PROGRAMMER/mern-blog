@@ -2,7 +2,7 @@ import {Link} from "react-router-dom"; // Link is a component that allows you to
 
 export default function PostCard({post}) { // this is a functional component that takes a prop called post
   return (
-    <div className="group relative w-full border h-[400px] overflow-hidden rounded-lg sm:w-[330px] border-teal-500 hover:border-2 transition-all">
+    <div className="group relative w-full border h-[400px] overflow-hidden rounded-lg sm:w-[360px] border-teal-500 hover:border-2 transition-all">
         <Link to = {`/post/${post.slug}`}> {/* this is a Link component that takes you to the post page */}
             <img src={post.image} alt={post.title} className="h-[260px] w-full object-cover group-hover:h-[200px] transition-all duration-300 z-20 " /> {/* this is an image */}
         </Link>

@@ -39,7 +39,7 @@ app.use('/api/comment', commentRoutes);  // Use comment routes
 //DEPLOYMENT
 app.use(express.static(path.join(__dirname, '/client/dist'))); // Serve the static files from the React app
 app.get('*', (req, res) => { // Handles any requests that don't match the ones above
-    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+    res.sendFile(path.join(__dirname ,'client', 'dist', 'index.html'));
 });
 /////////////////////////////////////
 app.use((err, req, res, next) => {  // Error handling middleware

@@ -7,6 +7,7 @@ import postRoutes from './routes/post.route.js'; // Import post routes
 import commentRoutes from './routes/comment.route.js'; // Import comment routes
 
 import cookieParser from 'cookie-parser';
+import path from 'path'; //DEPLOYMENT
 
 dotenv.config();                    // Load environment variables
 
@@ -16,6 +17,8 @@ mongoose.connect(process.env.MONGO)
 }).catch(err => {
     console.error('Error connecting to MongoDB', err);
 }); // Connect to MongoDB
+
+const __dirname = path.resolve(); // Set __dirname to the current directory name
 
 const app = express(); // Create express app
 app.use(express.json()); // Use express json middleware
@@ -33,6 +36,12 @@ app.use('/api/auth', authRoutes);   // Use auth routes
 app.use('/api/post', postRoutes);  // Use post routes
 app.use('/api/comment', commentRoutes);  // Use comment routes
 
+//DEPLOYMENT
+app.use(express.static(path.join(__dirname, '/client/dist'))); // Serve the static files from the React app
+app.get('*', (req, res) => { // Handles any requests that don't match the ones above
+    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+});
+/////////////////////////////////////
 app.use((err, req, res, next) => {  // Error handling middleware
     const statusCode = err.statusCode || 500; // If there is a status code in the error, use it, otherwise use 500
     const message = err.message || 'Internal server error'; // Get the error message

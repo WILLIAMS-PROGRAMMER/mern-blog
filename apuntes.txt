@@ -77,3 +77,5 @@ npm install nodemon  //para que este atento a los cambios que yo haga
  en el archivo de tailwindcss ,colocar require('tailwind-scrollbar');
 
  npm i moment // package for time
+
+ ir a firebase ,dominios autorizados para que autenticacion con google funcione bien

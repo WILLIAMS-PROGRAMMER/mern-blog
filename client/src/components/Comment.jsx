@@ -9,7 +9,7 @@ export default function Comment({comment, onLike, onEdit, onDelete}) { // commet
     const {currentUser} = useSelector(state => state.user); // useSelector es un hook de react-redux que permite acceder al estado de redux
     const [isEditing, setIsEditing] = useState(false); // isEditing es un estado que se inicializa como un booleano falso
     const [editedContent, setEditedContent] = useState(comment.content); // editedContent es un estado que se inicializa con el contenido del comentario
-
+    console.log(currentUser,'currentUser'); // para comprobar que se esta obteniendo el usuario actual
     useEffect(() => {
         const getUser = async () => {
             try {
@@ -17,6 +17,7 @@ export default function Comment({comment, onLike, onEdit, onDelete}) { // commet
                 const data = await res.json(); // parse the response body
                 if(res.ok) {
                     setUser(data); // set the user state to the response body
+                    console.log(currentUser,'currentUser'); 
                 } else {
                     console.log(data.message);
                 }
@@ -94,7 +95,7 @@ export default function Comment({comment, onLike, onEdit, onDelete}) { // commet
                         <button 
                             type="button"
                             onClick={() => onLike(comment._id)}
-                            className={` hover:text-blue-500 ${comment.likes.includes(currentUser._id) ? 'text-blue-500' : 'text-gray-400'}`}
+                            className={` hover:text-blue-500 ${currentUser && comment.likes.includes(currentUser._id) ? 'text-blue-500' : 'text-gray-400'}`}
                         >
                             <FaThumbsUp className="text-sm" />
                         </button>
@@ -102,7 +103,7 @@ export default function Comment({comment, onLike, onEdit, onDelete}) { // commet
                             {comment.numberOfLikes} {comment.numberOfLikes === 1 ? 'like' : 'likes'}
                         </p>
                         { // <> </> es un fragmento de react
-                           
+                           currentUser &&
                             ((currentUser._id === comment.userId) || currentUser.isAdmin) && (
                                 <>
                                     <button 
